@@ -1,83 +1,14 @@
-
 using System.Diagnostics;
-
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Xml;
 using HtmlAgilityPack;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ParserWeb
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ParserController : ControllerBase
+    public class ParserFunc
     {
-        public async static Task Main(string[] args)
-        {
-           await CreateHostBuilder(args).Build().RunAsync();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-
-        [HttpGet("startParsing")]
-        public async Task<IActionResult> StartParsing()
-        {
-            try
-            {
-                DatabaseInitializer.Initialize();
-                ISite site = new Fackel();
-                var sitemapUrl = site.SitemapUrl;
-                var urls = await LoadUrlsFromSitemap(sitemapUrl, site);
-                var processedurls = await GetProcessedUrls();
-                var urlsToProcess = urls.Except(processedurls).ToList();
-                await Db.ClearDatabases();
-                await ProcessUrlsAsync(urlsToProcess, site);
-                return Ok("Parsing completed successfully.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
-            }
-        }
-        [HttpGet("deleteDb")]
-        public  async Task<IActionResult> DeleteDb()
-        {
-            await Db.ClearDatabases();
-            return Ok("Db deleted");
-        }
-        static async Task<List<string>> GetProcessedUrls()
-        {
-            using (var db = new ApplicationContext())
-            {   
-                if (db.ProcessedUrls.Select(u => u.url).ToListAsync<string>().ToString()=="")
-                {
-                    return new List<string>();
-                }
-                return await db.ProcessedUrls.Select(u => u.url).ToListAsync<string>();
-                
-            }
-        }
-        [HttpGet("stopParsing")]
-        public IActionResult StopParsing()
-        {
-            try
-            {
-                return Ok("Parsing process stopped successfully.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while stopping parsing process: {ex.Message}");
-            }
-        }
-
-        private static async Task<List<string>> LoadUrlsFromSitemap(string sitemapUrl, ISite site)
+        public static async Task<List<string>> LoadUrlsFromSitemap(string sitemapUrl, ISite site)
         {
             using (var client = new WebClient())
             {
@@ -107,11 +38,12 @@ namespace ParserWeb
                         throw;
                     }
                 }
+
                 return urls;
             }
         }
 
-        private static async Task ProcessUrlsAsync(List<string> urls, ISite site)
+        public static async Task ProcessUrlsAsync(List<string> urls, ISite site)
         {
             await Task.Run(async () =>
             {
@@ -134,7 +66,7 @@ namespace ParserWeb
             });
         }
 
-        private static async Task ProcessUrlAsync(string url, SemaphoreSlim semaphore, ISite site)
+        public static async Task ProcessUrlAsync(string url, SemaphoreSlim semaphore, ISite site)
         {
             await semaphore.WaitAsync();
             Console.WriteLine(url);
@@ -146,7 +78,7 @@ namespace ParserWeb
             semaphore.Release();
         }
 
-        
+
 
         private static bool IsProductUrl(string url, ISite site)
         {
@@ -206,7 +138,7 @@ namespace ParserWeb
             if (stock != null)
             {
                 var count = stock.SelectMany(c => Regex.Matches(c.InnerText.Trim(), @"-?\d+"))
-                                .Sum(match => int.Parse(match.Value));
+                    .Sum(match => int.Parse(match.Value));
                 product.Stock = count;
                 product.Avaible = count != 0;
             }
@@ -274,7 +206,8 @@ namespace ParserWeb
             {
                 var characteristicsparhelp = doc.DocumentNode.SelectNodes(site.CharacteristicsXpathParHelp);
                 var type = characteristicsparhelp?[0].InnerText;
-                var text = characteristicspar.Aggregate("", (current, c) => current + (TextCorrector(c.InnerText) + " "));
+                var text = characteristicspar.Aggregate("",
+                    (current, c) => current + (TextCorrector(c.InnerText) + " "));
                 test.Add(type, text);
             }
 
@@ -327,8 +260,8 @@ namespace ParserWeb
         {
             var cleanedText = Regex.Replace(text, @"\s+", " ");
             cleanedText = cleanedText.Replace("\n", "").Replace("\t", "").Replace("&quot;", "\"")
-                                     .Replace("&#40;", "(").Replace("&#41;", ")").Replace("&nbsp;", " ")
-                                     .Replace("&mdash;", "-").Replace("&#43;", "+").Trim();
+                .Replace("&#40;", "(").Replace("&#41;", ")").Replace("&nbsp;", " ")
+                .Replace("&mdash;", "-").Replace("&#43;", "+").Trim();
             return cleanedText;
         }
     }
