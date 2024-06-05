@@ -1,0 +1,5 @@
+КОМАНДЫ АКТУАЛЬНЫ ДЛЯ ЛОКАЛЬНОГО УСТРОЙСТВА СОЗДАТЕЛЯ
+ПРИ ИСПОЛЬЗОВАНИИ ДРУГОГО СЕРВЕРА / УСТРОЙСТВА В ФАЙЛЕ ParserWeb.http СЛЕДУЕТ ИЗМЕНИТЬ url адрес
+запуск - curl http://localhost:5160/api/Parser/startParsing
+очистка бд - curl http://localhost:5160/api/Parser/deleteBd
+остановка - curl http://localhost:5160/api/Parser/stopParsing
