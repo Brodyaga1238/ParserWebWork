@@ -2,23 +2,93 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using System.Text.Json;
 namespace ParserWeb
-{
-
-     public class Product
+{ 
+    public class Product
     {
-        public int Id { get; set; }
-        
-        public string Category { get; set; } //128
-        public string Name { get; set; } // 128
-        public string Description { get; set; } 
-        public int Price { get; set; }
-        public int Stock { get; set; }
-        
+        private int id;
+        private string category;
+        private string name;
+        private string description;
+        private int price;
+        private int stock;
+        private bool avaible ;
+        private Dictionary<string, string> characteristics;
+        private string originUrl;
+        private List<ProductIImage> images;
+
+        public int Id 
+        { 
+            get => id;
+            set
+            {
+                if (value >= 0)
+                    id = value;
+            }
+        }
+
+        public string Category 
+        { 
+            get => category; 
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                    category = value;
+            }
+        }
+
+        public string Name 
+        { 
+            get => name; 
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                    name = value;
+            }
+        }
+
+        public string Description 
+        { 
+            get => description; 
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                    description = value;
+            }
+        }
+
+        public int Price 
+        { 
+            get => price; 
+            set
+            {
+                if (value >= 0)
+                    price = value;
+            }
+        }
+
+        public int Stock 
+        { 
+            get => stock; 
+            set
+            {
+                if (value >= 0)
+                    stock = value;
+            }
+        }
+
         [NotMapped] 
-        public bool Avaible { get; set; }
-        
+        public bool Avaible  
+        { 
+            get => avaible  ; 
+            set => avaible   = value; 
+        }
+
         [NotMapped]
-        public Dictionary<string, string> Characteristics { get; set; }
+        public Dictionary<string, string> Characteristics 
+        { 
+            get => characteristics; 
+            set => characteristics = value ?? new Dictionary<string, string>(); 
+        }
 
         [Column(TypeName = "json")] 
         public string? CharacteristicsJson 
@@ -27,23 +97,34 @@ namespace ParserWeb
             {
                 var options = new JsonSerializerOptions
                 {
-                    // Включаем поддержку юникода
                     Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                    // Устанавливаем свойство WriteIndented в true для удобочитаемого формата JSON
                     WriteIndented = true
                 };
                 return JsonSerializer.Serialize(Characteristics, options);
             }
             set
             {
-                Characteristics = JsonSerializer.Deserialize(value, typeof(Dictionary<string, string>)) as Dictionary<string, string>;
+                Characteristics = JsonSerializer.Deserialize<Dictionary<string, string>>(value) ?? new Dictionary<string, string>();
             }
         } 
-        
-        public string OriginUrl { get; set; } //128
+
+        public string OriginUrl 
+        { 
+            get => originUrl; 
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                    originUrl = value;
+            }
+        }
+
         [NotMapped]
-        public List<ProductIImage> Images { get; set; }
-        
+        public List<ProductIImage> Images 
+        { 
+            get => images; 
+            set => images = value ?? new List<ProductIImage>(); 
+        }
+
         // Конструкторы класса Product
         public Product()
         {
@@ -52,12 +133,14 @@ namespace ParserWeb
             Description = "-";
             Price = 0;
             Stock = 0;
-            Characteristics = new Dictionary<string, string>();;
+            Characteristics = new Dictionary<string, string>();
             OriginUrl = "test";
-            Avaible = true;
+            Avaible   = true;
+            Images = new List<ProductIImage>();
         }
+
         public Product(string category, string name, string description, int price, int stock,
-            string originUrl ,Dictionary<string, string>  characteristics)
+            string originUrl, Dictionary<string, string> characteristics)
         {
             Category = category;
             Name = name;
@@ -66,6 +149,8 @@ namespace ParserWeb
             Stock = stock;
             OriginUrl = originUrl;
             Characteristics = characteristics;
+            Avaible  = true;
+            Images = new List<ProductIImage>();
         }
     }
 }
