@@ -19,6 +19,11 @@ namespace ParserWeb
         public int Id 
         { 
             get => id;
+            set
+            {
+                if (value >= 0)
+                    id = value;
+            }
         }
 
         public string Category 

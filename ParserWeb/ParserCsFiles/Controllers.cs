@@ -21,7 +21,7 @@ namespace ParserWeb
                     webBuilder.UseStartup<Startup>();
                 });
 
-        [HttpGet("startParsing")]
+        [HttpGet("startparsing")]
         public async Task<IActionResult> StartParsing()
         {
             try
