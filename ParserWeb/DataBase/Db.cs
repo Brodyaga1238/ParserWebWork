@@ -42,7 +42,7 @@ namespace ParserWeb
                 db.ProductsDb.Add(product1);
                 var help = product1.OriginUrl;
                 ProcessedUrl help1 = new ProcessedUrl();
-                help1.url = help;
+                help1.Url = help;
                 db.ProcessedUrls.Add(help1);
                 await db.SaveChangesAsync();
                 Console.WriteLine($"Объект успешно сохранены url:{product1.OriginUrl}");

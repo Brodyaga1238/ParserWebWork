@@ -51,11 +51,11 @@ namespace ParserWeb
         {
             using (var db = new ApplicationContext())
             {   
-                if (db.ProcessedUrls.Select(u => u.url).ToListAsync<string>().ToString()=="")
+                if (db.ProcessedUrls.Select(u => u.Url).ToListAsync<string>().ToString()=="")
                 {
                     return new List<string>();
                 }
-                return await db.ProcessedUrls.Select(u => u.url).ToListAsync<string>();
+                return await db.ProcessedUrls.Select(u => u.Url).ToListAsync<string>();
                 
             }
         }
