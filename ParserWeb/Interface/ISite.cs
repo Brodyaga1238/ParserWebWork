@@ -1,4 +1,4 @@
-namespace ParserWeb
+namespace ParserWeb.Interface
 {
 
     public interface ISite

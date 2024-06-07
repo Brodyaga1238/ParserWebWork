@@ -1,4 +1,6 @@
-namespace ParserWeb
+using ParserWeb.Interface;
+
+namespace ParserWeb.Models.SitesForParsing
 {
 
 

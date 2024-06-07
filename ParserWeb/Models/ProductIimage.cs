@@ -1,30 +1,30 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 
-namespace ParserWeb
+namespace ParserWeb.Models
 {
     public class ProductIImage
     {
-        private int id;
-        private Dictionary<string, string> image;
-        private int productId;
-        private Product product;
+        private int _id;
+        private Dictionary<string, string> _image;
+        private int _productId;
+        private Product _product;
 
         public int Id
         {
-            get => id;
+            get => _id;
             set
             {
                 if (value >= 0)
-                    id = value;
+                    _id = value;
             }
         }
 
         [NotMapped]
         public Dictionary<string, string> Image
         {
-            get => image;
-            set => image = value ;
+            get => _image;
+            set => _image = value ;
         }
 
         [Column(TypeName = "json")]
@@ -47,18 +47,18 @@ namespace ParserWeb
 
         public int ProductId
         {
-            get => productId;
+            get => _productId;
             set
             {
                 if (value >= 0)
-                    productId = value;
+                    _productId = value;
             }
         }
 
         public Product Product
         {
-            get => product;
-            set => product = value ;
+            get => _product;
+            set => _product = value ;
         }
     }
 }

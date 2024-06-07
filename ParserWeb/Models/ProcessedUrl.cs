@@ -1,26 +1,26 @@
-namespace ParserWeb
+namespace ParserWeb.Models
 {
     public class ProcessedUrl
     {
-        private int id; 
-        private string url { get; set; }
+        private int _id; 
+        private string _url { get; set; }
         public int Id 
         { 
-            get => id;
+            get => _id;
             set
             {
                 if (value >= 0)
-                    id = value;
+                    _id = value;
             }
         }
 
         public string Url
         {
-            get => url;
+            get => _url;
             set
             {
                 if (!string.IsNullOrEmpty(value))
-                    url = value;
+                    _url = value;
             }
         }
     }

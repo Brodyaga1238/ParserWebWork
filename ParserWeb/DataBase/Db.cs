@@ -1,9 +1,9 @@
-
 using Microsoft.EntityFrameworkCore;
+using ParserWeb.Models;
 
-namespace ParserWeb
+namespace ParserWeb.DataBase
 {
-    public class Db
+    public static class Db
     {
         public static async Task AddImageToDb(ProductIImage product1)
         {
@@ -23,15 +23,11 @@ namespace ParserWeb
                 //db.ProcessedUrls.RemoveRange(db.ProcessedUrls);
                 await db.SaveChangesAsync();
             }
-
-            
-                using (var db = new ApplicationContext())
-                {
-                    db.ProcessedUrls.RemoveRange(db.ProcessedUrls);
-                    await db.SaveChangesAsync();
-                }
-           
-           
+            using (var db = new ApplicationContext())
+            { 
+                db.ProcessedUrls.RemoveRange(db.ProcessedUrls);
+                await db.SaveChangesAsync();
+            }
         }
 
        

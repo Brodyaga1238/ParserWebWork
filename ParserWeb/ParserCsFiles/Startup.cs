@@ -1,4 +1,4 @@
-namespace ParserWeb
+namespace ParserWeb.ParserCsFiles
 {
     public class Startup
     {

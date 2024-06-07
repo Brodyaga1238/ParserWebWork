@@ -1,93 +1,93 @@
 using System.ComponentModel.DataAnnotations.Schema;
-
 using System.Text.Json;
-namespace ParserWeb
+
+namespace ParserWeb.Models
 { 
     public class Product
     {
-        private int id;
-        private string category;
-        private string name;
-        private string description;
-        private int price;
-        private int stock;
-        private bool avaible ;
-        private Dictionary<string, string> characteristics;
-        private string originUrl;
-        private List<ProductIImage> images;
+        private int _id;
+        private string _category;
+        private string _name;
+        private string _description;
+        private int _price;
+        private int _stock;
+        private bool _avaible ;
+        private Dictionary<string, string> _characteristics;
+        private string _originUrl;
+        private List<ProductIImage> _images;
 
         public int Id 
         { 
-            get => id;
+            get => _id;
             set
             {
                 if (value >= 0)
-                    id = value;
+                    _id = value;
             }
         }
 
         public string Category 
         { 
-            get => category; 
+            get => _category; 
             set
             {
                 if (!string.IsNullOrWhiteSpace(value))
-                    category = value;
+                    _category = value;
             }
         }
 
         public string Name 
         { 
-            get => name; 
+            get => _name; 
             set
             {
                 if (!string.IsNullOrWhiteSpace(value))
-                    name = value;
+                    _name = value;
             }
         }
 
         public string Description 
         { 
-            get => description; 
+            get => _description; 
             set
             {
                 if (!string.IsNullOrWhiteSpace(value))
-                    description = value;
+                    _description = value;
             }
         }
 
         public int Price 
         { 
-            get => price; 
+            get => _price; 
             set
             {
                 if (value >= 0)
-                    price = value;
+                    _price = value;
             }
         }
 
         public int Stock 
         { 
-            get => stock; 
+            get => _stock; 
             set
             {
                 if (value >= 0)
-                    stock = value;
+                    _stock = value;
             }
         }
 
         [NotMapped] 
         public bool Avaible  
         { 
-            get => avaible  ; 
-            set => avaible   = value; 
+            get => _avaible  ; 
+            set => _avaible   = value; 
         }
 
         [NotMapped]
         public Dictionary<string, string> Characteristics 
         { 
-            get => characteristics; 
-            set => characteristics = value ?? new Dictionary<string, string>(); 
+            get => _characteristics; 
+            set => _characteristics = value ?? new Dictionary<string, string>(); 
         }
 
         [Column(TypeName = "json")] 
@@ -110,19 +110,19 @@ namespace ParserWeb
 
         public string OriginUrl 
         { 
-            get => originUrl; 
+            get => _originUrl; 
             set
             {
                 if (!string.IsNullOrWhiteSpace(value))
-                    originUrl = value;
+                    _originUrl = value;
             }
         }
 
         [NotMapped]
         public List<ProductIImage> Images 
         { 
-            get => images; 
-            set => images = value ?? new List<ProductIImage>(); 
+            get => _images; 
+            set => _images = value ?? new List<ProductIImage>(); 
         }
 
         // Конструкторы класса Product

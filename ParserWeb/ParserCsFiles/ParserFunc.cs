@@ -3,8 +3,11 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Xml;
 using HtmlAgilityPack;
+using ParserWeb.DataBase;
+using ParserWeb.Interface;
+using ParserWeb.Models;
 
-namespace ParserWeb
+namespace ParserWeb.ParserCsFiles
 {
     public class ParserFunc
     {

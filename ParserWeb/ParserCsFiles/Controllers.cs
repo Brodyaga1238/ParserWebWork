@@ -1,9 +1,10 @@
-
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ParserWeb.DataBase;
+using ParserWeb.Interface;
+using ParserWeb.Models.SitesForParsing;
 
-namespace ParserWeb
+namespace ParserWeb.ParserCsFiles
 {
     [Route("api/[controller]")]
     [ApiController]
